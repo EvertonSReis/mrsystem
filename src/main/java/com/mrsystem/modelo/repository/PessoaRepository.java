@@ -1,4 +1,4 @@
-package com.mrsystem.repository;
+package com.mrsystem.modelo.repository;
 
 import com.mrsystem.modelo.entitys.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;

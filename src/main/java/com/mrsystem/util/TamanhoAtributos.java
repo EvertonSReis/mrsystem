@@ -1,4 +1,4 @@
-package com.mrsystem.Util;
+package com.mrsystem.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

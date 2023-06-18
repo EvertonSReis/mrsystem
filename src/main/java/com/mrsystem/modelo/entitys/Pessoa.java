@@ -1,6 +1,6 @@
 package com.mrsystem.modelo.entitys;
 
-import com.mrsystem.Util.TamanhoAtributos;
+import com.mrsystem.util.TamanhoAtributos;
 import com.mrsystem.modelo.enums.ETipoPessoa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
