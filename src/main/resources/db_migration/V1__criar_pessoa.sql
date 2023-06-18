@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS pessoa(id_pessoa UUID NOT NULL PRIMARY KEY,
+nome VARCHAR(255),
+tipo_pessoa int,
+cpf_cnpj int(15),
+endereco VARCHAR(255),
+bairro VARCHAR(255),
+cidade VARCHAR(255),
+numero int,
+cep int(8),
+numero_telefone VARCHAR(20),
+data_nascimento date)
