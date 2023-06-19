@@ -9,6 +9,7 @@ import com.mrsystem.modelo.entitys.Pessoa;
 import com.mrsystem.modelo.enums.ETipoPessoa;
 import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.modelo.repository.PessoaRepository;
+import com.mrsystem.util.ValidarCpfCnpJ;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class PessoaService {
         try {
             verificarExisteCpfCnpjCadastrado(pessoaDTO);
             pessoaDTO.setCodigo(codigoCliente());
+            String cpfCnpj = ValidarCpfCnpJ.cpfCnpjValido(pessoaDTO);
+            pessoaDTO.setCpfCnpj(cpfCnpj);
             Pessoa pessoa = pessoaRepository.save(pessoaBuilder.parserCadastroPessoa(pessoaDTO));
             return pessoaBuilder.builderRetornoPessoa(pessoa);
         } catch (ValidationException ex){

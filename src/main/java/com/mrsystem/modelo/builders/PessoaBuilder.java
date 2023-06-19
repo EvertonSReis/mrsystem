@@ -11,7 +11,7 @@ public class PessoaBuilder {
     public Pessoa parserCadastroPessoa(CadastroPessoaDTO pessoaDTO){
         Pessoa pessoa = new Pessoa();
 
-        pessoa.setCodigo(pessoa.getCodigo());
+        pessoa.setCodigo(pessoaDTO.getCodigo());
         pessoa.setNome(pessoaDTO.getNome());
         pessoa.setTipoPessoa(pessoaDTO.getTipoPessoa());
         pessoa.setCpfCnpj(pessoaDTO.getCpfCnpj());
@@ -19,6 +19,7 @@ public class PessoaBuilder {
         pessoa.setBairro(pessoaDTO.getBairro());
         pessoa.setCidade(pessoaDTO.getCidade());
         pessoa.setNumero(pessoaDTO.getNumero());
+        pessoa.setComplemtento(pessoaDTO.getComplemento());
         pessoa.setCep(pessoaDTO.getCep());
         pessoa.setNumeroTelefone(pessoaDTO.getNumeroTelefone());
         pessoa.setDataNascimento(pessoaDTO.getDataNascimento());
@@ -38,6 +39,7 @@ public class PessoaBuilder {
         retornoDTO.setBairro(pessoa.getBairro());
         retornoDTO.setCidade(pessoa.getCidade());
         retornoDTO.setNumero(pessoa.getNumero());
+        retornoDTO.setComplemento(pessoa.getComplemtento());
         retornoDTO.setCep(pessoa.getCep());
         retornoDTO.setNumeroTelefone(pessoa.getNumeroTelefone());
         retornoDTO.setDataNascimento(pessoa.getDataNascimento());

@@ -31,10 +31,8 @@ public class Pessoa {
     @Column(name = "tipo_pessoa")
     private ETipoPessoa tipoPessoa;
 
-
     @Column(name = "cpf_cnpj")
-    @TamanhoAtributos(min = 11, max = 15)
-    private Integer cpfCnpj;
+    private String cpfCnpj;
 
     private String endereco;
 

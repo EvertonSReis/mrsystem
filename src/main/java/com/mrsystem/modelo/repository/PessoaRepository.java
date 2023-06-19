@@ -13,8 +13,8 @@ public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
     @Query("select count(*) > 0 " +
             "from Pessoa p " +
             "where p.cpfCnpj = :cpfCnpj")
-    boolean existeCadastroParaCpfCnpj(Integer cpfCnpj);
+    boolean existeCadastroParaCpfCnpj(String cpfCnpj);
 
-    @Query("select max(p.idPessoa) from Pessoa p")
+    @Query("select max(p.codigo) from Pessoa p")
     Integer ultimoCodigoCliente();
 }
