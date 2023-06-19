@@ -1,0 +1,145 @@
+FORMAT: 1A
+HOST: https://localhost:8090/rest
+
+# API MRSystem
+
+## Sobre
+
+Documentação referente a API MRSystem.
+
+::: note
+## Descrição dos tipos
+
+  Tipo    | Descrição
+  --:     | ----
+  C       |  Caractere
+  N       |  Número
+  B       |  Boolean
+  D       |  Decimal
+  A       |  Array
+  L       |  Lista de objetos
+  O       |  Objeto
+:::
+
+::: note
+## Descrições das Requisições
+
+Tipo    | Descrição
+--:     | ----
+E       |  Entrada
+S       |  Saída
+:::
+
+# Group Pessoa
+
+## Cadastrar Pessoa [/pessoa]
+  Requisição responsável por cadastrar uma nova pessoa.
+
+### Cadastrar Pessoa [POST]
+
+::: note
+## Descrição dos campos Pessoa
+
+  Nome                  | Requisição | Tipo  | Tamanho  | Ocorrência | Observação
+  --:                   |    --      | ----  |   --     |    --      | --
+  idPessoa              |    S       |   C   |    -     |    1-1     | ID da pessoa cadastrada no banco de dados.
+  codigo                |    S       |   N   |    -     |    1-1     | Código da pessoa cadastrada no banco de dados.
+  nome                  |   E/S      |   C   |    -     |    1-1     | Nome da pessoa a ser cadastrada.
+  tipoPessoa            |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa é a identificação se `FISICA` ou `JURIDICA`.
+  cpfCnpj               |   E/S      |   C   |    -     |    1-1     | CPF ou CNPJ da pessoa cadastrada de acordo ao tipo de pessoa se `FISICA` ou `JURIDICA`.
+  endereco              |   E/S      |   C   |    -     |    1-1     | Nome da rua onde reside.
+  bairro                |   E/S      |   C   |    -     |    1-1     | Bairro onde reside.
+  cidade                |   E/S      |   C   |    -     |    1-1     | Cidade onde reside.
+  estado                |   E/S      |   C   |    -     |    1-1     | Estado onde reside.
+  numero                |   E/S      |   N   |    -     |    1-1     | Numero de onde reside.
+  complemento          |   E/S      |   C   |    -     |    1-1     | Complemento ao endereço.
+  cep                   |   E/S      |   N   |    -     |    1-1     | Cep de onde reside.
+  numeroTelefone        |   E/S      |   C   |    -     |    1-1     | Número telefone da pessoa cadastrada.
+  dataNascimento        |   E/S      |   C   |    -     |    1-1     | Data de nascimento da pessoa cadastrada no formato `1996-01-23`.
+  tipoPessoaSistema     |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa no sistema pode ser `FUNCIONARIO`, `CLIENTE`, `FORNECEDOR`.
+:::
+
+::: note
+## Códigos de retorno 400
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ----
+  -1     | Existe(m) campo(s) obrigatório(s) não informado(s).
+  -2     | Existe(m) campo(s) inválido(s) na requisição.
+  -3     | CPF já cadastrado no banco de dados.
+  -4     | CNPJ já cadastrado no banco de dados.
+  -5     | O CPF informado está incorreto.
+  -6     | O CNPJ informado está incorreto.
+:::
+
+::: note
+## Códigos de retorno 400
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ----
+  -999   | Mensagem de erro interno na API sem tratamento.
+:::
+
++ Parameters
+
++ Request (application/json)
+
+{
+    "nome": "José Alves",
+    "tipoPessoa": "FISICA",
+    "cpfCnpj": "03045453522",
+    "endereco": "Av. Amélia Amado",
+    "bairro": "Centro",
+    "cidade": "Itabuna",
+    "estado": "Bahia",
+    "numero": "45",
+    "complemento": "apto 102",
+    "cep": "45603595",
+    "numeroTelefone": "73999999999",
+    "dataNascimento": "1980-03-15",
+    "tipoPessoaSistema": "CLIENTE"
+}
+
++ Response 201 (application/json)
+
+{
+    "codigo": 2,
+    "nome": "José Alves",
+    "tipoPessoa": "FISICA",
+    "cpfCnpj": "03045453522",
+    "endereco": "Av. Amélia Amado",
+    "bairro": "Centro",
+    "cidade": "Itabuna",
+    "estado": "Bahia",
+    "numero": "45",
+    "complemento": "apto 102",
+    "cep": "45603595",
+    "numeroTelefone": "73999999999",
+    "dataNascimento": "1980-03-15",
+    "tipoPessoaSistema": "CLIENTE",
+    "idPessoa": "6eebf92e-a5d3-486e-add0-de6e49f25ba6"
+}
+
++ Response 400 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": codigo,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}
+
++ Response 500 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": -999,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}

@@ -5,6 +5,9 @@ import com.mrsystem.dtos.response.pessoa.PessoaRetornoDTO;
 import com.mrsystem.modelo.entitys.Pessoa;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class PessoaBuilder {
 
@@ -23,8 +26,17 @@ public class PessoaBuilder {
         pessoa.setCep(pessoaDTO.getCep());
         pessoa.setNumeroTelefone(pessoaDTO.getNumeroTelefone());
         pessoa.setDataNascimento(pessoaDTO.getDataNascimento());
+        pessoa.setTipoPessoaSistema(pessoaDTO.getTipoPessoaSistema());
 
         return pessoa;
+    }
+
+    public List<PessoaRetornoDTO> builderRetornoListaPessoa(List<Pessoa> pessoas){
+        List<PessoaRetornoDTO> pessoaRetornoDTOS = new ArrayList<>();
+
+        pessoas.forEach(pessoa -> pessoaRetornoDTOS.add(builderRetornoPessoa(pessoa)));
+
+        return pessoaRetornoDTOS;
     }
 
     public PessoaRetornoDTO builderRetornoPessoa(Pessoa pessoa){
@@ -43,6 +55,7 @@ public class PessoaBuilder {
         retornoDTO.setCep(pessoa.getCep());
         retornoDTO.setNumeroTelefone(pessoa.getNumeroTelefone());
         retornoDTO.setDataNascimento(pessoa.getDataNascimento());
+        retornoDTO.setTipoPessoaSistema(pessoa.getTipoPessoaSistema());
 
         return retornoDTO;
     }

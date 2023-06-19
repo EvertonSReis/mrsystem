@@ -1,5 +1,6 @@
 package com.mrsystem.modelo.entitys;
 
+import com.mrsystem.modelo.enums.ETipoPessoaSistema;
 import com.mrsystem.util.TamanhoAtributos;
 import com.mrsystem.modelo.enums.ETipoPessoa;
 import jakarta.persistence.*;
@@ -54,4 +55,8 @@ public class Pessoa {
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
+
+    @Enumerated
+    @Column(name = "tipo_pessoa_sistema")
+    private ETipoPessoaSistema tipoPessoaSistema;
 }

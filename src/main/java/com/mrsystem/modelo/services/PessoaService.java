@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static java.lang.String.format;
 
 @Slf4j
@@ -61,5 +63,11 @@ public class PessoaService {
       } else {
           return pessoaRepository.ultimoCodigoCliente() + 1;
       }
+    }
+
+    public List<PessoaRetornoDTO> retornarTodosClientes() {
+        List<Pessoa> pessoas = pessoaRepository.findAll();
+
+        return pessoaBuilder.builderRetornoListaPessoa(pessoas);
     }
 }
