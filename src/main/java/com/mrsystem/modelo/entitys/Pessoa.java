@@ -24,6 +24,8 @@ public class Pessoa {
     @Column(name = "id_pessoa")
     private UUID idPessoa;
 
+    private Integer codigo;
+
     private String nome;
 
     @Column(name = "tipo_pessoa")
@@ -40,13 +42,17 @@ public class Pessoa {
 
     private String cidade;
 
+    private String estado;
+
     private Integer numero;
 
+    private String complemtento;
+
     @TamanhoAtributos(max = 8)
-    private String cep;
+    private Integer cep;
 
     @Column(name = "numero_telefone")
-    private String numerotelefone;
+    private String numeroTelefone;
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;

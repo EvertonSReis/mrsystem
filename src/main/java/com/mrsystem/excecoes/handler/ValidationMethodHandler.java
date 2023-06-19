@@ -1,7 +1,7 @@
 package com.mrsystem.excecoes.handler;
 
-import com.mrsystem.dtos.ErroDTO;
-import com.mrsystem.dtos.ErrosDTO;
+import com.mrsystem.dtos.erro.ErroDTO;
+import com.mrsystem.dtos.erro.ErrosDTO;
 import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.util.MensagensUtils;
 import lombok.extern.slf4j.Slf4j;
