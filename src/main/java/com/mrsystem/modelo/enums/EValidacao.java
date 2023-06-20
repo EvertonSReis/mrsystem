@@ -12,6 +12,7 @@ public enum EValidacao implements IEnumLabel<EValidacao> {
     CNPJ_JA_CADASTRADO(-4),
     CPF_INVALIDO(-5),
     CNPJ_INVALIDO(-6),
+    DATA_INVALIDA(-7),
     NAO_IDENTIFICADO(-999);
 
     private Integer codigo;

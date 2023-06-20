@@ -1,6 +1,9 @@
 package com.mrsystem.modelo.services;
 
+import com.mrsystem.dtos.listagem.ListagemDTO;
 import com.mrsystem.dtos.request.pessoa.cadastro.CadastroPessoaDTO;
+import com.mrsystem.dtos.response.PaginacaoDTO;
+import com.mrsystem.dtos.response.pessoa.ListagemPessoaRetornoDTO;
 import com.mrsystem.dtos.response.pessoa.PessoaRetornoDTO;
 import com.mrsystem.excecoes.MRSystemRuntimeException;
 import com.mrsystem.excecoes.ValidationException;
@@ -12,9 +15,11 @@ import com.mrsystem.modelo.repository.PessoaRepository;
 import com.mrsystem.util.ValidarCpfCnpJ;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static java.lang.String.format;
 
@@ -65,9 +70,44 @@ public class PessoaService {
       }
     }
 
-    public List<PessoaRetornoDTO> retornarTodosClientes() {
-        List<Pessoa> pessoas = pessoaRepository.findAll();
+    public ListagemPessoaRetornoDTO retornarTodosClientes(ListagemDTO listagemDTO) {
 
-        return pessoaBuilder.builderRetornoListaPessoa(pessoas);
+      try {
+          Page<Pessoa> pessoas = obterPaginacaoPessoa(listagemDTO);
+
+          ListagemPessoaRetornoDTO retorno = new ListagemPessoaRetornoDTO();
+          if(pessoas.getContent().size() > 0){
+              retorno.setPaginacao(new PaginacaoDTO(
+                      listagemDTO.getNumeroPagina(),
+                      listagemDTO.getItensPorPagina(),
+                      pessoas.getTotalPages(),
+                      pessoas.getTotalElements()));
+
+              pessoas
+                      .getContent()
+                      .forEach(
+                              pessoa ->
+                                      retorno.getPessoas()
+                                              .add(
+                                                      pessoaBuilder.builderRetornoPessoa(pessoa)));
+          }
+          return retorno;
+      } catch (ValidationException ex){
+          throw ex;
+      } catch (Exception e){
+          log.error(format("Ocorreu um erro ao retornar todos clientes"), e);
+          throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
+      }
+    }
+
+    private Page<Pessoa> obterPaginacaoPessoa(ListagemDTO listagemDTO){
+        Pageable pageable =
+                PageRequest.of(listagemDTO.getNumeroPagina() > 0 ? (listagemDTO.getNumeroPagina() -1) : 0,
+                        listagemDTO.getItensPorPagina(),
+                        Sort.by(
+                                listagemDTO.getTipoOrdenacao().ordenacao,
+                                listagemDTO.getOrdenarPor().getNome()));
+
+        return pessoaRepository.findAll(pageable);
     }
 }
