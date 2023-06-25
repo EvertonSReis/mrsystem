@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ESituacaoTitulo {
     ABERTO("A"),
-    VENCIDO("V"),
     PAGO("P");
 
     private String tipo;

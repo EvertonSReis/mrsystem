@@ -31,9 +31,11 @@ public abstract class TituloDTO {
 
     private LocalDate dataVencimento;
 
-    private BigDecimal valorJuros;
+    private BigDecimal valorJuros = BigDecimal.ZERO;
 
-    private BigDecimal valorMulta;
+    private BigDecimal valorMulta = BigDecimal.ZERO;
+
+    private BigDecimal valorAtualizado;
 
     private LocalDate dataPagamento;
 

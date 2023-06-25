@@ -10,6 +10,7 @@ import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.modelo.services.TituloService;
 import com.mrsystem.util.EnumValido;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,14 @@ public class TituloController {
                                         ? EOrdenacao.valueOf(ordenarPor)
                                         : EOrdenacao.NUMERO_TITULO));
         return new ResponseEntity<>(listagemTituloRetornoDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/{idTitulo}")
+    public ResponseEntity<?> atualizarPagamento(
+            @PathVariable("idTitulo") UUID idTitulo,
+            @RequestBody CadastroTituloDTO tituloDTO) {
+        tituloService.atualizarPagamento(idTitulo, tituloDTO);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

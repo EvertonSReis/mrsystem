@@ -13,6 +13,7 @@ import com.mrsystem.modelo.builders.TituloBuilder;
 import com.mrsystem.modelo.entitys.FormaPagamento;
 import com.mrsystem.modelo.entitys.Pessoa;
 import com.mrsystem.modelo.entitys.Titulo;
+import com.mrsystem.modelo.enums.ESituacaoTitulo;
 import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.modelo.repository.FormaPagamentoRepository;
 import com.mrsystem.modelo.repository.PessoaRepository;
@@ -46,19 +47,50 @@ public class TituloService {
             FormaPagamento formaPagamento =
                     obterFormaPagamento(tituloDTO.getFormaPagamento().getIdFormaPagamento());
 
+            ESituacaoTitulo situacaoTitulo = obterSituacaoTitulo(tituloDTO);
+
             Titulo titulo =
                     tituloBuilder.parserCadastroTitulo(
                             tituloDTO,
                             pessoa,
                             formaPagamento,
                             gerarNumeroTitulo(),
-                            valorTituloAtualizado(tituloDTO));
+                            valorTituloAtualizado(tituloDTO),
+                            situacaoTitulo);
 
             return tituloBuilder.builderRetornoTitulo(tituloRepository.save(titulo));
         } catch (ValidationException ex) {
             throw ex;
         } catch (Exception e) {
             log.error(format("Ocorreu um erro ao cadastrar o titulo."), e);
+            throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
+        }
+    }
+
+    public void atualizarPagamento(UUID idTitulo, CadastroTituloDTO tituloDTO) {
+        try {
+            if (tituloDTO.getDataPagamento() == null)
+                throw new ValidationException(EValidacao.DATA_INVALIDA);
+            Titulo titulo =
+                    tituloRepository
+                            .findById(idTitulo)
+                            .orElseThrow(
+                                    () ->
+                                            new ValidationException(
+                                                    EValidacao.TITULO_NAO_ENCONTRADO, idTitulo.toString()));
+
+            CadastroTituloDTO cadastroTituloDTO = tituloBuilder.tituloDTO(tituloDTO, titulo);
+            FormaPagamento pagamento =
+                    obterFormaPagamento(tituloDTO.getFormaPagamento().getIdFormaPagamento());
+            BigDecimal valorAtualizado = valorTituloAtualizado(tituloDTO);
+            ESituacaoTitulo situacaoTitulo = obterSituacaoTitulo(tituloDTO);
+            tituloRepository.save(
+                    tituloBuilder.parserPagamentoTitulo(
+                            cadastroTituloDTO, pagamento, valorAtualizado, situacaoTitulo, titulo));
+        } catch (ValidationException ex) {
+            throw ex;
+        } catch (Exception e) {
+            log.error(format("Ocorreu um erro ao informar pagamento do titulo."), e);
             throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
         }
     }
@@ -133,5 +165,19 @@ public class TituloService {
                                 listagemDTO.getOrdenarPor().getNome()));
 
         return tituloRepository.findAll(pageable);
+    }
+
+    private ESituacaoTitulo obterSituacaoTitulo(CadastroTituloDTO tituloDTO) {
+
+        if (tituloDTO.getDataVencimento().isBefore(tituloDTO.getDataEmissão())) {
+            throw new ValidationException(EValidacao.DATA_VENCIMENTO_ANTERIOR_EMISSAO);
+        } else if (tituloDTO.getDataPagamento() != null
+                && tituloDTO.getDataPagamento().isBefore(tituloDTO.getDataEmissão())) {
+            throw new ValidationException(EValidacao.DATA_PAGAMENTO_ANTERIOR_EMISSAO);
+        } else if (tituloDTO.getDataPagamento() != null) {
+            return ESituacaoTitulo.PAGO;
+        } else {
+            return ESituacaoTitulo.ABERTO;
+        }
     }
 }

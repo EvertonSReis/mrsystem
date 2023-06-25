@@ -74,12 +74,12 @@ S       |  Saída
 :::
 
 ::: note
-## Códigos de retorno 400
+## Códigos de retorno 500
   Erro(s) que pode(m) ocorrer durante o processamento da requisição:
 
   Código | Mensagem
   --:    | ----
-  -999   | Mensagem de erro interno na API sem tratamento.
+  -999   | Ocorreu um problema não identificado..
 :::
 
 + Parameters
@@ -120,6 +120,152 @@ S       |  Saída
     "dataNascimento": "1980-03-15",
     "tipoPessoaSistema": "CLIENTE",
     "idPessoa": "6eebf92e-a5d3-486e-add0-de6e49f25ba6"
+}
+
++ Response 400 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": codigo,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}
+
++ Response 500 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": -999,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}
+
+# Group Titulo
+
+## Cadastrar Titulo [/pessoa]
+  Requisição responsável por cadastrar um novo titulo.
+
+### Cadastrar Titulo [POST]
+
+::: note
+## Descrição dos campos Pessoa
+
+  Nome                  | Requisição | Tipo  | Tamanho  | Ocorrência | Observação
+  --:                   |    --      | ----  |   --     |    --      | --
+  idTitulo              |    S       |   C   |    -     |    1-1     | ID do título cadastrado no banco de dados.
+  pessoa                |   E/S      |   O   |    -     |    1-1     | Objeto pessoa passado com o `idPessoa`.
+  numeroTitulo          |    S       |   N   |    -     |    1-1     | ID da pessoa cadastrada no banco de dados.
+  descricao             |   E/S      |   C   |    -     |    1-1     | Código da pessoa cadastrada no banco de dados.
+  valorTitulo           |   E/S      |   C   |    -     |    1-1     | Nome da pessoa a ser cadastrada.
+  dataEmissão           |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa é a identificação se `FISICA` ou `JURIDICA`.
+  dataVencimento        |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa é a identificação se `FISICA` ou `JURIDICA`.
+  valorJuros            |   E/S      |   D   |    -     |    1-1     | Nome da rua onde reside.
+  valorMulta            |   E/S      |   D   |    -     |    1-1     | Bairro onde reside.
+  valorAtualizado       |   E/S      |   D   |    -     |    1-1     | Bairro onde reside.
+  dataPagamento         |   E/S      |   C   |    -     |    1-1     | Cidade onde reside.
+  formaPagamento        |   E/S      |   O   |    -     |    1-1     | Estado onde reside.
+  tipoTitulo            |   E/S      |   C   |    -     |    1-1     | Numero de onde reside.
+  situacaoTitulo        |    S       |   C   |    -     |    1-1     | Complemento ao endereço.
+:::
+
+::: note
+## Descrição do Objeto Pessoa
+
+  Nome                  | Requisição | Tipo  | Tamanho  | Ocorrência | Observação
+  --:                   |    --      | ----  |   --     |    --      | --
+  idPessoa              |   E/S      |   O   |    -     |    1-1     | ID da pessoa cadastrada no banco de dados.
+:::
+
+::: note
+## Descrição do Objeto Forma de Pagamento
+
+  Nome                  | Requisição | Tipo  | Tamanho  | Ocorrência | Observação
+  --:                   |    --      | ----  |   --     |    --      | --
+  idFormaPagamento      |   E/S      |   O   |    -     |    1-1     | ID da forma de pagamento cadastrada no banco de dados.
+:::
+
+::: note
+## Códigos de retorno 400
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ----
+  -1     | Existe(m) campo(s) obrigatório(s) não informado(s).
+  -2     | Existe(m) campo(s) inválido(s) na requisição.
+  -11    | Não foi encontrado uma pessoa cadastrada com o ID {id_pessoa}.
+  -12    | Não foi encontrado uma forma de pagamento cadastrada com o ID {id_forma_pagamento}.
+  -13    | Data de vencimento anterior a data de emissão.
+  -14    | Data de pagamento anterior a data de emissão.
+:::
+
+::: note
+## Códigos de retorno 500
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ----
+  -999   | Ocorreu um problema não identificado.
+:::
+
++ Parameters
+
++ Request (application/json)
+
+{
+    {
+        "pessoa": {
+            "idPessoa": "19608bb1-f14e-4036-a42c-893a37db4922"
+        },
+        "descricao": "Teste",
+        "valorTitulo": "100.00",
+        "dataEmissão": "2023-05-30",
+        "dataVencimento": "2023-06-26",
+        "valorJuros": "5.0",
+        "valorMulta": "10.0",
+        "dataPagamento": "2023-06-26",
+        "formaPagamento": {
+            "idFormaPagamento": "c45784e3-ba60-4397-a484-eaae1ce30afe"
+        },
+        "tipoTitulo": "PAGAR"
+    }
+}
+
++ Response 201 (application/json)
+
+{
+    "numeroTitulo": 1,
+    "pessoa": {
+         "codigo": 1,
+         "nome": "José Alves",
+         "tipoPessoa": "FISICA",
+         "cpfCnpj": "03045453522",
+         "endereco": "Av. Amélia Amado",
+         "bairro": "Centro",
+         "cidade": "Itabuna",
+         "numero": 45,
+         "complemento": "apto 102",
+         "cep": 45603595,
+         "numeroTelefone": "73999999999",
+         "dataNascimento": "1980-03-15",
+         "tipoPessoaSistema": "CLIENTE",
+         "idPessoa": "19608bb1-f14e-4036-a42c-893a37db4922"
+    },
+    "descricao": "Teste",
+    "valorTitulo": 100.00,
+    "dataEmissão": "2023-05-30",
+    "valorJuros": 0.00,
+    "valorMulta": 0.00,
+    "formaPagamento": {
+         "nome": "DINHEIRO",
+         "idFormaPagamento": "c45784e3-ba60-4397-a484-eaae1ce30afe"
+    },
+    "tipoTitulo": "PAGAR",
+    "situacaoTitulo": "ABERTO",
+    "idTitulo": "4959fd8c-96e9-4a1b-b15a-f380675e8013"
 }
 
 + Response 400 (application/json)
