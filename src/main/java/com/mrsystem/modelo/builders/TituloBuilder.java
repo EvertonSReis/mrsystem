@@ -28,6 +28,7 @@ public class TituloBuilder {
         titulo.setDescricao(tituloDTO.getDescricao());
         titulo.setValorTitulo(tituloDTO.getValorTitulo());
         titulo.setDataEmissão(tituloDTO.getDataEmissão());
+        titulo.setDataVencimento(tituloDTO.getDataVencimento());
         titulo.setValorJuros(tituloDTO.getValorJuros());
         titulo.setValorMulta(tituloDTO.getValorMulta());
         titulo.setValorTituloAtualizado(valorAtualizado);
@@ -48,6 +49,7 @@ public class TituloBuilder {
         retornoDTO.setDescricao(titulo.getDescricao());
         retornoDTO.setValorTitulo(titulo.getValorTitulo());
         retornoDTO.setDataEmissão(titulo.getDataEmissão());
+        retornoDTO.setDataVencimento(titulo.getDataVencimento());
         retornoDTO.setValorJuros(titulo.getValorJuros());
         retornoDTO.setValorMulta(titulo.getValorMulta());
         retornoDTO.setDataPagamento(titulo.getDataPagamento());

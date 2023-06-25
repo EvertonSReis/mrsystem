@@ -39,6 +39,9 @@ public class Titulo {
     @Column(name = "data_emissao")
     private LocalDate dataEmissão = LocalDate.now();
 
+    @Column(name = "data_vencimento")
+    private LocalDate dataVencimento;
+
     @Column(name = "valor_juros")
     private BigDecimal valorJuros;
 

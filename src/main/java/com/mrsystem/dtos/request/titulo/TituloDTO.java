@@ -29,6 +29,8 @@ public abstract class TituloDTO {
 
     private LocalDate dataEmissão;
 
+    private LocalDate dataVencimento;
+
     private BigDecimal valorJuros;
 
     private BigDecimal valorMulta;
