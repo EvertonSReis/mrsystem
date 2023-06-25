@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface TamanhoAtributos {
 
     public int min() default 0;
+
     public int max() default 100;
 }

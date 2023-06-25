@@ -2,12 +2,11 @@ package com.mrsystem.dtos.listagem;
 
 import com.mrsystem.modelo.enums.EOrdenacao;
 import com.mrsystem.modelo.enums.ETipoOrdenacao;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Builder
 @Data

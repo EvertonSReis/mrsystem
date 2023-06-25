@@ -2,7 +2,6 @@ package com.mrsystem.util;
 
 import com.mrsystem.excecoes.ValidationException;
 import com.mrsystem.modelo.enums.EValidacao;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

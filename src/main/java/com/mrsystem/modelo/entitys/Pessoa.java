@@ -1,16 +1,16 @@
 package com.mrsystem.modelo.entitys;
 
+import com.mrsystem.modelo.enums.ETipoPessoa;
 import com.mrsystem.modelo.enums.ETipoPessoaSistema;
 import com.mrsystem.util.TamanhoAtributos;
-import com.mrsystem.modelo.enums.ETipoPessoa;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -59,4 +59,7 @@ public class Pessoa {
     @Enumerated
     @Column(name = "tipo_pessoa_sistema")
     private ETipoPessoaSistema tipoPessoaSistema;
+
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Titulo> titulo;
 }

@@ -4,6 +4,9 @@ import com.mrsystem.dtos.erro.ErroDTO;
 import com.mrsystem.dtos.erro.ErrosDTO;
 import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.util.MensagensUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -15,10 +18,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)

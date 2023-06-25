@@ -6,7 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum EOrdenacao {
-
     NOME("nome"),
     CPF_CNPJ("cpfCnpj");
 

@@ -1,4 +1,3 @@
 package com.mrsystem.modelo.entitys;
 
-public class TipoCodigo {
-}
+public class TipoCodigo {}

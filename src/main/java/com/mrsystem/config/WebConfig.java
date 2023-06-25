@@ -1,4 +1,4 @@
-package com.mrsystem;
+package com.mrsystem.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -14,14 +14,14 @@ public class WebConfig {
     public static final String CHARSET_ECONDIG = "UTF-8";
 
     @Bean
-    public LocaleResolver localeResolver(){
+    public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(StringUtils.parseLocaleString("pt_BR"));
         return cookieLocaleResolver;
     }
 
     @Bean
-    public MessageSource messageSource(){
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource =
                 new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:msgs/mensagens");

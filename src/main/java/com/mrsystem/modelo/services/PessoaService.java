@@ -1,5 +1,7 @@
 package com.mrsystem.modelo.services;
 
+import static java.lang.String.format;
+
 import com.mrsystem.dtos.listagem.ListagemDTO;
 import com.mrsystem.dtos.request.pessoa.cadastro.CadastroPessoaDTO;
 import com.mrsystem.dtos.response.PaginacaoDTO;
@@ -21,19 +23,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import static java.lang.String.format;
-
 @Slf4j
 @Service
 public class PessoaService {
 
-    @Autowired
-    PessoaRepository pessoaRepository;
+    @Autowired PessoaRepository pessoaRepository;
 
-    @Autowired
-    PessoaBuilder pessoaBuilder;
+    @Autowired PessoaBuilder pessoaBuilder;
 
-  public PessoaRetornoDTO salvar(CadastroPessoaDTO pessoaDTO){
+    public PessoaRetornoDTO salvar(CadastroPessoaDTO pessoaDTO) {
         try {
             verificarExisteCpfCnpjCadastrado(pessoaDTO);
             pessoaDTO.setCodigo(codigoCliente());
@@ -41,10 +39,10 @@ public class PessoaService {
             pessoaDTO.setCpfCnpj(cpfCnpj);
             Pessoa pessoa = pessoaRepository.save(pessoaBuilder.parserCadastroPessoa(pessoaDTO));
             return pessoaBuilder.builderRetornoPessoa(pessoa);
-        } catch (ValidationException ex){
+        } catch (ValidationException ex) {
             throw ex;
-        } catch (Exception e){
-            log.error(format("Ocorreu um erro ao salvar o cliente no banco de dados."),e);
+        } catch (Exception e) {
+            log.error(format("Ocorreu um erro ao salvar o cliente no banco de dados."), e);
             throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
         }
     }
@@ -52,57 +50,59 @@ public class PessoaService {
     private boolean verificarExisteCpfCnpjCadastrado(CadastroPessoaDTO pessoaDTO) {
         if (pessoaDTO.getTipoPessoa() == ETipoPessoa.FISICA) {
             if (pessoaRepository.existeCadastroParaCpfCnpj(pessoaDTO.getCpfCnpj())) {
-                throw new ValidationException(EValidacao.CPF_JA_CADASTRADO, pessoaDTO.getCpfCnpj().toString());
+                throw new ValidationException(
+                        EValidacao.CPF_JA_CADASTRADO, pessoaDTO.getCpfCnpj().toString());
             }
         } else {
             if (pessoaRepository.existeCadastroParaCpfCnpj(pessoaDTO.getCpfCnpj())) {
-                throw new ValidationException(EValidacao.CNPJ_JA_CADASTRADO, pessoaDTO.getCpfCnpj().toString());
+                throw new ValidationException(
+                        EValidacao.CNPJ_JA_CADASTRADO, pessoaDTO.getCpfCnpj().toString());
             }
         }
         return true;
     }
 
-    private Integer codigoCliente(){
-      if(pessoaRepository.ultimoCodigoCliente() == null){
-          return 1;
-      } else {
-          return pessoaRepository.ultimoCodigoCliente() + 1;
-      }
+    private Integer codigoCliente() {
+        if (pessoaRepository.ultimoCodigoCliente() == null) {
+            return 1;
+        } else {
+            return pessoaRepository.ultimoCodigoCliente() + 1;
+        }
     }
 
     public ListagemPessoaRetornoDTO retornarTodosClientes(ListagemDTO listagemDTO) {
 
-      try {
-          Page<Pessoa> pessoas = obterPaginacaoPessoa(listagemDTO);
+        try {
+            Page<Pessoa> pessoas = obterPaginacaoPessoa(listagemDTO);
 
-          ListagemPessoaRetornoDTO retorno = new ListagemPessoaRetornoDTO();
-          if(pessoas.getContent().size() > 0){
-              retorno.setPaginacao(new PaginacaoDTO(
-                      listagemDTO.getNumeroPagina(),
-                      listagemDTO.getItensPorPagina(),
-                      pessoas.getTotalPages(),
-                      pessoas.getTotalElements()));
+            ListagemPessoaRetornoDTO retorno = new ListagemPessoaRetornoDTO();
+            if (pessoas.getContent().size() > 0) {
+                retorno.setPaginacao(
+                        new PaginacaoDTO(
+                                listagemDTO.getNumeroPagina(),
+                                listagemDTO.getItensPorPagina(),
+                                pessoas.getTotalPages(),
+                                pessoas.getTotalElements()));
 
-              pessoas
-                      .getContent()
-                      .forEach(
-                              pessoa ->
-                                      retorno.getPessoas()
-                                              .add(
-                                                      pessoaBuilder.builderRetornoPessoa(pessoa)));
-          }
-          return retorno;
-      } catch (ValidationException ex){
-          throw ex;
-      } catch (Exception e){
-          log.error(format("Ocorreu um erro ao retornar todos clientes"), e);
-          throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
-      }
+                pessoas.getContent()
+                        .forEach(
+                                pessoa ->
+                                        retorno.getPessoas()
+                                                .add(pessoaBuilder.builderRetornoPessoa(pessoa)));
+            }
+            return retorno;
+        } catch (ValidationException ex) {
+            throw ex;
+        } catch (Exception e) {
+            log.error(format("Ocorreu um erro ao retornar todos clientes"), e);
+            throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
+        }
     }
 
-    private Page<Pessoa> obterPaginacaoPessoa(ListagemDTO listagemDTO){
+    private Page<Pessoa> obterPaginacaoPessoa(ListagemDTO listagemDTO) {
         Pageable pageable =
-                PageRequest.of(listagemDTO.getNumeroPagina() > 0 ? (listagemDTO.getNumeroPagina() -1) : 0,
+                PageRequest.of(
+                        listagemDTO.getNumeroPagina() > 0 ? (listagemDTO.getNumeroPagina() - 1) : 0,
                         listagemDTO.getItensPorPagina(),
                         Sort.by(
                                 listagemDTO.getTipoOrdenacao().ordenacao,

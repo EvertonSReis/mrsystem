@@ -3,15 +3,14 @@ package com.mrsystem.modelo.builders;
 import com.mrsystem.dtos.request.pessoa.cadastro.CadastroPessoaDTO;
 import com.mrsystem.dtos.response.pessoa.PessoaRetornoDTO;
 import com.mrsystem.modelo.entitys.Pessoa;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PessoaBuilder {
 
-    public Pessoa parserCadastroPessoa(CadastroPessoaDTO pessoaDTO){
+    public Pessoa parserCadastroPessoa(CadastroPessoaDTO pessoaDTO) {
         Pessoa pessoa = new Pessoa();
 
         pessoa.setCodigo(pessoaDTO.getCodigo());
@@ -31,7 +30,7 @@ public class PessoaBuilder {
         return pessoa;
     }
 
-    public List<PessoaRetornoDTO> builderRetornoListaPessoa(List<Pessoa> pessoas){
+    public List<PessoaRetornoDTO> builderRetornoListaPessoa(List<Pessoa> pessoas) {
         List<PessoaRetornoDTO> pessoaRetornoDTOS = new ArrayList<>();
 
         pessoas.forEach(pessoa -> pessoaRetornoDTOS.add(builderRetornoPessoa(pessoa)));
@@ -39,7 +38,7 @@ public class PessoaBuilder {
         return pessoaRetornoDTOS;
     }
 
-    public PessoaRetornoDTO builderRetornoPessoa(Pessoa pessoa){
+    public PessoaRetornoDTO builderRetornoPessoa(Pessoa pessoa) {
         PessoaRetornoDTO retornoDTO = new PessoaRetornoDTO();
 
         retornoDTO.setIdPessoa(pessoa.getIdPessoa());

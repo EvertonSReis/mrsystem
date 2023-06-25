@@ -8,7 +8,7 @@ public class ValidationException extends ExceptionAbstract {
         super(validacao);
     }
 
-    public ValidationException(EValidacao validacao, String... params){
+    public ValidationException(EValidacao validacao, String... params) {
         super(validacao, params);
     }
 }
