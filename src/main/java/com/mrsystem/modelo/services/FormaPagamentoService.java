@@ -33,7 +33,7 @@ public class FormaPagamentoService {
         } catch (ValidationException ex) {
             throw ex;
         } catch (Exception e) {
-            log.error(format(""), e);
+            log.error(format("Ocorreu um erro ao cadastrar a forma de pagamento."), e);
             throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
         }
     }

@@ -1,4 +1,4 @@
-package com.mrsystem.controller.titulo;
+package com.mrsystem.controller.formaDePagamento;
 
 import com.mrsystem.dtos.request.FormaPagamento.cadastro.CadastroFormaPagamentoDTO;
 import com.mrsystem.modelo.services.FormaPagamentoService;
