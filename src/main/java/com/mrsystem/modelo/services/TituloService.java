@@ -51,7 +51,7 @@ public class TituloService {
         } catch (ValidationException ex) {
             throw ex;
         } catch (Exception e) {
-            log.error(format(""), e);
+            log.error(format("Ocorreu um erro ao cadastrar o titulo."), e);
             throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
         }
     }
