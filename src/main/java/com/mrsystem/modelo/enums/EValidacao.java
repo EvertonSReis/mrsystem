@@ -21,6 +21,8 @@ public enum EValidacao implements IEnumLabel<EValidacao> {
     DATA_PAGAMENTO_ANTERIOR_EMISSAO(-14),
     ERRO_AO_OBTER_SITUACAO(-15),
     TITULO_NAO_ENCONTRADO(-16),
+    ID_TITULO_OBRIGATORIO(-17),
+    UUID_INVALIDO(-18),
     NAO_IDENTIFICADO(-999);
 
     private Integer codigo;

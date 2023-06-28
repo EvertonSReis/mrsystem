@@ -81,7 +81,7 @@ public class TituloBuilder {
         return retornoDTO;
     }
 
-    public CadastroTituloDTO tituloDTO(CadastroTituloDTO tituloDTO, Titulo titulo){
+    public CadastroTituloDTO tituloDTO(CadastroTituloDTO tituloDTO, Titulo titulo) {
         tituloDTO.setValorTitulo(titulo.getValorTitulo());
         tituloDTO.setDataEmissão(titulo.getDataEmissão());
         tituloDTO.setDataVencimento(titulo.getDataVencimento());

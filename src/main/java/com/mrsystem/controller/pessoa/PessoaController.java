@@ -49,4 +49,11 @@ public class PessoaController {
 
         return new ResponseEntity<>(pessoaRetornoDTOS, HttpStatus.OK);
     }
+    
+    @DeleteMapping("/{idPessoa}")
+    public ResponseEntity<?> deletar(@PathVariable("idPessoa") String idPessoa){
+        pessoaService.excluir(idPessoa);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

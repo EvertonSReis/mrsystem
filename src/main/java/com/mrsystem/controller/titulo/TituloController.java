@@ -11,6 +11,8 @@ import com.mrsystem.modelo.services.TituloService;
 import com.mrsystem.util.EnumValido;
 import jakarta.validation.Valid;
 import java.util.UUID;
+
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +54,14 @@ public class TituloController {
 
     @PostMapping("/{idTitulo}")
     public ResponseEntity<?> atualizarPagamento(
-            @PathVariable("idTitulo") UUID idTitulo,
-            @RequestBody CadastroTituloDTO tituloDTO) {
+            @PathVariable("idTitulo") UUID idTitulo, @RequestBody CadastroTituloDTO tituloDTO) {
         tituloService.atualizarPagamento(idTitulo, tituloDTO);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{idTitulo}")
+    public ResponseEntity<?> retornarPorId(@PathVariable("idTitulo") UUID idTitulo){
+        return new ResponseEntity<>(tituloService.retornarPorId(idTitulo), HttpStatus.OK);
     }
 }

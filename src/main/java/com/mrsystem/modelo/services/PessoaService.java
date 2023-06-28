@@ -14,7 +14,9 @@ import com.mrsystem.modelo.entitys.Pessoa;
 import com.mrsystem.modelo.enums.ETipoPessoa;
 import com.mrsystem.modelo.enums.EValidacao;
 import com.mrsystem.modelo.repository.PessoaRepository;
+import com.mrsystem.util.IdUtil;
 import com.mrsystem.util.ValidarCpfCnpJ;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -110,4 +114,17 @@ public class PessoaService {
 
         return pessoaRepository.findAll(pageable);
     }
+
+    @Transactional
+    public void excluir(String idPessoa) {
+        /*try {
+            UUID uuidIdPessoa = IdUtil.obtemUUID(idPessoa);
+            verificarExisteVinculoComTitulo(uuidIdPessoa);
+        }*/
+    }
+
+    private void verificarExisteVinculoComTitulo(UUID uuidIdPessoa) {}
+        //ponto parada
+
+
 }

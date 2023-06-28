@@ -144,6 +144,114 @@ S       |  Saída
     ]
 }
 
+## Listagem Pessoa [/pessoa?numeroPagina=1&itensPorPagina=10&tipoOrdenacao=DESC&ordenarPor=CPF_CNPJ]
+  Requisição responsável por recuperar uma lista de pessoa de acordo com o filtro informado.
+  - Para o parametro `tipoOrdenacao` é possível utilizar os seguintes valores: `DESC` ou `ASC`;
+  - Para o parametro `ordenarPor` é possível utilizar os seguintes valores: `NOME`, `CPF_CNPJ`;
+  - Caso o parametro `numeroPagina` não seja informado. Por padrão será 1;
+  - Caso o parametro `itensPorPagina` não seja informado. Por padrão será 10;
+  - Caso o parametro `tipoOrdenacao` não seja informado. Por padrão será DESC;
+  - Caso o parametro `ordenarPor` não seja informado. Por padrão será NOME;
+
++ Parameters
+  + numeroPagina: `1` - Número da página a ser exibida no payload.
+  + itensPorPagina: `20` - Número de itens a ser exibido por página.
+  + tipoOrdenacao: `DESC` - Tipo de ordenação a ser aplicada na busca.
+  + ordenarPor: `NOME` - Valores permitidos a serem ordenados.
+
+### Listar Pessoa [GET]
+
+::: note
+## Descrição de retorno
+
+  Nome                  | Requisição | Tipo  | Tamanho  | Ocorrência | Observação
+  --:                   |    --      | ----  |   --     |    --      | --
+  idPessoa              |    S       |   C   |    -     |    1-1     | ID da pessoa cadastrada no banco de dados.
+  codigo                |    S       |   N   |    -     |    1-1     | Código da pessoa cadastrada no banco de dados.
+  nome                  |   E/S      |   C   |    -     |    1-1     | Nome da pessoa a ser cadastrada.
+  tipoPessoa            |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa é a identificação se `FISICA` ou `JURIDICA`.
+  cpfCnpj               |   E/S      |   C   |    -     |    1-1     | CPF ou CNPJ da pessoa cadastrada de acordo ao tipo de pessoa se `FISICA` ou `JURIDICA`.
+  endereco              |   E/S      |   C   |    -     |    1-1     | Nome da rua onde reside.
+  bairro                |   E/S      |   C   |    -     |    1-1     | Bairro onde reside.
+  cidade                |   E/S      |   C   |    -     |    1-1     | Cidade onde reside.
+  estado                |   E/S      |   C   |    -     |    1-1     | Estado onde reside.
+  numero                |   E/S      |   N   |    -     |    1-1     | Numero de onde reside.
+  complemento           |   E/S      |   C   |    -     |    1-1     | Complemento ao endereço.
+  cep                   |   E/S      |   N   |    -     |    1-1     | Cep de onde reside.
+  numeroTelefone        |   E/S      |   C   |    -     |    1-1     | Número telefone da pessoa cadastrada.
+  dataNascimento        |   E/S      |   C   |    -     |    1-1     | Data de nascimento da pessoa cadastrada no formato `1996-01-23`.
+  tipoPessoaSistema     |   E/S      |   C   |    -     |    1-1     | Tipo de Pessoa no sistema pode ser `FUNCIONARIO`, `CLIENTE`, `FORNECEDOR`.
+:::
+
+::: note
+## Códigos de retorno 400
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ---
+:::
+
+::: note
+## Códigos de retorno 500
+  Erro(s) que pode(m) ocorrer durante o processamento da requisição:
+
+  Código | Mensagem
+  --:    | ---
+:::
+
++ Request
+
++ Response 200 (application/json)
+
+        {
+            "paginacao": {
+                "pagina": 1,
+                "itensPorPagina": 10,
+                "quantidadeDePaginas": 1,
+                "quantidadeTotalDeItens": 2
+            },
+            "pessoas": [
+                {
+                    "codigo": 2,
+                    "nome": "Everton Silva Reis",
+                    "tipoPessoa": "FISICA",
+                    "cpfCnpj": "06454147517",
+                    "endereco": "Tv. Washington Luís",
+                    "bairro": "São Roque",
+                    "cidade": "Itabuna",
+                    "numero": 46,
+                    "complemento": "apto 901",
+                    "cep": 45603595,
+                    "numeroTelefone": "73982356226",
+                    "dataNascimento": "1996-01-23",
+                    "tipoPessoaSistema": "CLIENTE",
+                    "idPessoa": "72b39aa3-7ee9-4cf5-a02f-2a308f618d3a"
+                }
+            ]
+        }
+
++ Response 400 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": codigo,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}
+
++ Response 500 (application/json)
+
+{
+    "erros": [
+        {
+            "codigo": -999,
+            "mensagem": "Mensagem do erro."
+        }
+    ]
+}
+
 # Group Titulo
 
 ## Cadastrar Titulo [/pessoa]

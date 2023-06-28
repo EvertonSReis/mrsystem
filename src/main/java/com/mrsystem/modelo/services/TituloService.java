@@ -71,13 +71,7 @@ public class TituloService {
         try {
             if (tituloDTO.getDataPagamento() == null)
                 throw new ValidationException(EValidacao.DATA_INVALIDA);
-            Titulo titulo =
-                    tituloRepository
-                            .findById(idTitulo)
-                            .orElseThrow(
-                                    () ->
-                                            new ValidationException(
-                                                    EValidacao.TITULO_NAO_ENCONTRADO, idTitulo.toString()));
+            Titulo titulo = buscarTituloPorId(idTitulo);
 
             CadastroTituloDTO cadastroTituloDTO = tituloBuilder.tituloDTO(tituloDTO, titulo);
             FormaPagamento pagamento =
@@ -91,6 +85,47 @@ public class TituloService {
             throw ex;
         } catch (Exception e) {
             log.error(format("Ocorreu um erro ao informar pagamento do titulo."), e);
+            throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
+        }
+    }
+
+    public ListagemTituloRetornoDTO retornarTodosTitulos(ListagemDTO listagemDTO) {
+        try {
+            Page<Titulo> titulos = obterPaginacaoTitulo(listagemDTO);
+
+            ListagemTituloRetornoDTO retorno = new ListagemTituloRetornoDTO();
+            if (titulos.getContent().size() > 0) {
+                retorno.setPaginacao(
+                        new PaginacaoDTO(
+                                listagemDTO.getNumeroPagina(),
+                                listagemDTO.getItensPorPagina(),
+                                titulos.getTotalPages(),
+                                titulos.getTotalElements()));
+                titulos.getContent()
+                        .forEach(
+                                titulo ->
+                                        retorno.getTitulos()
+                                                .add(tituloBuilder.builderRetornoTitulo(titulo)));
+            }
+
+            return retorno;
+        } catch (ValidationException ex) {
+            throw ex;
+        } catch (Exception e) {
+            log.error(format("Ocorreu um erro ao retornar listagem dos titulos"), e);
+            throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
+        }
+    }
+
+    public TituloRetornoDTO retornarPorId(UUID idTitulo) {
+        try {
+            Titulo titulo = buscarTituloPorId(idTitulo);
+
+            return tituloBuilder.builderRetornoTitulo(titulo);
+        } catch (ValidationException ex) {
+            throw ex;
+        } catch (Exception e) {
+            log.error(format("Ocorreu um erro ao retornar o titulo por id."), e);
             throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
         }
     }
@@ -127,34 +162,6 @@ public class TituloService {
                 .add(tituloDTO.getValorMulta());
     }
 
-    public ListagemTituloRetornoDTO retornarTodosTitulos(ListagemDTO listagemDTO) {
-        try {
-            Page<Titulo> titulos = obterPaginacaoTitulo(listagemDTO);
-
-            ListagemTituloRetornoDTO retorno = new ListagemTituloRetornoDTO();
-            if (titulos.getContent().size() > 0) {
-                retorno.setPaginacao(
-                        new PaginacaoDTO(
-                                listagemDTO.getNumeroPagina(),
-                                listagemDTO.getItensPorPagina(),
-                                titulos.getTotalPages(),
-                                titulos.getTotalElements()));
-                titulos.getContent()
-                        .forEach(
-                                titulo ->
-                                        retorno.getTitulos()
-                                                .add(tituloBuilder.builderRetornoTitulo(titulo)));
-            }
-
-            return retorno;
-        } catch (ValidationException ex) {
-            throw ex;
-        } catch (Exception e) {
-            log.error(format("Ocorreu um erro ao retornar listagem dos titulos"), e);
-            throw new MRSystemRuntimeException(EValidacao.NAO_IDENTIFICADO);
-        }
-    }
-
     private Page<Titulo> obterPaginacaoTitulo(ListagemDTO listagemDTO) {
         Pageable pageable =
                 PageRequest.of(
@@ -179,5 +186,16 @@ public class TituloService {
         } else {
             return ESituacaoTitulo.ABERTO;
         }
+    }
+
+    private Titulo buscarTituloPorId(UUID idTitulo){
+        if(idTitulo == null) throw new ValidationException(EValidacao.ID_TITULO_OBRIGATORIO);
+        return tituloRepository
+                        .findById(idTitulo)
+                        .orElseThrow(
+                                () ->
+                                        new ValidationException(
+                                                EValidacao.TITULO_NAO_ENCONTRADO,
+                                                idTitulo.toString()));
     }
 }
